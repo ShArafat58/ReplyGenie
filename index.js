@@ -1,4 +1,5 @@
 require("dotenv").config();
+const axios = require("axios");
 const express = require("express");
 const app = express();
 
@@ -36,6 +37,7 @@ app.post("/webhook", (req, res) => {
 
             if (event.message && event.message.text) {
                 console.log(`Message from ${senderPSID}: ${event.message.text}`);
+                sendMessage(senderPSID, "Thanks for your message! We will reply soon 😊");
             }
         });
 
@@ -44,6 +46,26 @@ app.post("/webhook", (req, res) => {
         res.sendStatus(404);
     }
 });
+
+// Send a reply to the customer
+async function sendMessage(senderPSID, text) {
+    try {
+        await axios.post(
+            `https://graph.facebook.com/v21.0/me/messages`,
+            {
+                recipient: { id: senderPSID },
+                messaging_type: "RESPONSE",
+                message: { text: text },
+            },
+            {
+                params: { access_token: process.env.PAGE_ACCESS_TOKEN },
+            }
+        );
+        console.log("Reply sent ✅");
+    } catch (error) {
+        console.error("Error sending reply:", error.response?.data || error.message);
+    }
+}
 
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
