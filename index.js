@@ -25,6 +25,26 @@ app.get("/webhook", (req, res) => {
     }
 });
 
+// Receive messages
+app.post("/webhook", (req, res) => {
+    const body = req.body;
+
+    if (body.object === "page") {
+        body.entry.forEach((entry) => {
+            const event = entry.messaging[0];
+            const senderPSID = event.sender.id;
+
+            if (event.message && event.message.text) {
+                console.log(`Message from ${senderPSID}: ${event.message.text}`);
+            }
+        });
+
+        res.status(200).send("EVENT_RECEIVED");
+    } else {
+        res.sendStatus(404);
+    }
+});
+
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
     console.log("Verify token loaded:", process.env.VERIFY_TOKEN);
