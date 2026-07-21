@@ -84,3 +84,11 @@ The app runs in development mode, so only people with a role on the app (admin, 
 ## Author
 
 Built by Shahriar Hossain Arafat as a learning project on the Meta Messenger Platform API.
+
+## A note on usage
+
+This project was created for my own learning and practice. You are welcome to read the code and learn from it. Please do not copy it and submit it as your own work. If you found it helpful, a mention or credit is appreciated.
+
+## License
+
+This project is shared for educational purposes. Please give credit if you use any part of it.
